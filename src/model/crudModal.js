@@ -1,4 +1,5 @@
 const R = require("ramda");
+const { v4: uuidv4 } = require("uuid");
 
 let Items = [];
 
@@ -12,6 +13,16 @@ const listItems = () => {
   }
 };
 
+const registerItem = (data) => {
+  let dataEnd = data;
+  dataEnd.created = new Date().toUTCString();
+  dataEnd.deleted = false;
+  dataEnd.id = uuidv4();
+  Items.push(dataEnd);
+  return dataEnd;
+};
+
 module.exports = {
   listItems,
+  registerItem,
 };

@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const { version } = require("./service/version");
-const { listItemFunc } = require("./service/crud");
+const { listItemFunc, registerItemFunc } = require("./service/crud");
 const cors = require("cors");
 const { json, urlencoded } = require("body-parser");
 
@@ -25,5 +25,6 @@ OPTION CONFIGURAR
 
 app.get("/", version);
 app.get("/item/list", listItemFunc);
+app.post("/item", registerItemFunc);
 console.log("{port}:", port);
 app.listen(port);
