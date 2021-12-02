@@ -1,4 +1,9 @@
-const { listItems, registerItem } = require("../model/crudModal");
+const {
+  listItems,
+  registerItem,
+  findItem,
+  updateItem,
+} = require("../model/crudModal");
 const { request, response } = require("express");
 const { validateJSON } = require("../util/schemaValid");
 
@@ -44,4 +49,36 @@ const registerItemFunc = (req = request, res = response) => {
   }
 };
 
-module.exports = { listItemFunc, registerItemFunc };
+const updateItemFunc = (req = request, res = response) => {
+  const { id } = req.params;
+  if (id) {
+    const find = findItem(id);
+    if (find) {
+      const { body } = req;
+      const respValid = validateJSON(SchemaInsert, body);
+      if (respValid.valid) {
+        const respModal = updateItem(respValid.data, id);
+        res.status(200).json({
+          status: 200,
+          data: respModal,
+        });
+      } else {
+        res.status(402).json({
+          status: 402,
+          error: respValid.err,
+        });
+      }
+    } else {
+      res.status(404).json({
+        status: 404,
+        error: "id invalid",
+      });
+    }
+  } else {
+    res.status(404).json({
+      status: 404,
+      error: "item not exist",
+    });
+  }
+};
+module.exports = { listItemFunc, registerItemFunc,updateItemFunc };

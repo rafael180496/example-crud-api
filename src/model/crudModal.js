@@ -22,7 +22,30 @@ const registerItem = (data) => {
   return dataEnd;
 };
 
+const updateItem = (data, id) => {
+  Items = Items.map((item) => {
+    if (item.id === id) {
+      item.name = data.name;
+      item.age = data.age;
+      return item;
+    } else {
+      return item;
+    }
+  });
+  return data;
+};
+
+const findItem = (id) => {
+  const itemFilter = R.filter((item) => {
+    return item.id === id;
+  }, Items);
+
+  return itemFilter.length < 0 ? null : itemFilter[0];
+};
+
 module.exports = {
   listItems,
   registerItem,
+  updateItem,
+  findItem,
 };
