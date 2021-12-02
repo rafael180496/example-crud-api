@@ -35,6 +35,17 @@ const updateItem = (data, id) => {
   return data;
 };
 
+const deletedItem = (id) => {
+  Items = Items.map((item) => {
+    if (item.id === id) {
+      item.deleted = true;
+      return item;
+    } else {
+      return item;
+    }
+  });
+  return "ok";
+};
 const findItem = (id) => {
   const itemFilter = R.filter((item) => {
     return item.id === id;
@@ -48,4 +59,5 @@ module.exports = {
   registerItem,
   updateItem,
   findItem,
+  deletedItem,
 };

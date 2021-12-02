@@ -5,6 +5,8 @@ const {
   listItemFunc,
   registerItemFunc,
   updateItemFunc,
+  findItemFunc,
+  deleteItemFunc,
 } = require("./service/crud");
 const cors = require("cors");
 const { json, urlencoded } = require("body-parser");
@@ -31,5 +33,7 @@ app.get("/", version);
 app.get("/item/list", listItemFunc);
 app.post("/item", registerItemFunc);
 app.put("/item/:id", updateItemFunc);
+app.get("/item/:id", findItemFunc);
+app.delete("/item/:id", deleteItemFunc);
 console.log("{port}:", port);
 app.listen(port);

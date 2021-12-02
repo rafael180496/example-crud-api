@@ -3,6 +3,7 @@ const {
   registerItem,
   findItem,
   updateItem,
+  deletedItem,
 } = require("../model/crudModal");
 const { request, response } = require("express");
 const { validateJSON } = require("../util/schemaValid");
@@ -81,4 +82,56 @@ const updateItemFunc = (req = request, res = response) => {
     });
   }
 };
-module.exports = { listItemFunc, registerItemFunc,updateItemFunc };
+const deleteItemFunc = (req = request, res = response) => {
+  const { id } = req.params;
+  if (id) {
+    const find = findItem(id);
+    if (find) {
+      const msg = deletedItem(id);
+      res.status(200).json({
+        status: 200,
+        msg: msg,
+      });
+    } else {
+      res.status(404).json({
+        status: 404,
+        error: "id invalid",
+      });
+    }
+  } else {
+    res.status(404).json({
+      status: 404,
+      error: "item not exist",
+    });
+  }
+};
+
+const findItemFunc = (req = request, res = response) => {
+  const { id } = req.params;
+  if (id) {
+    const find = findItem(id);
+    if (find) {
+      res.status(200).json({
+        status: 200,
+        data: find,
+      });
+    } else {
+      res.status(404).json({
+        status: 404,
+        error: "id invalid",
+      });
+    }
+  } else {
+    res.status(404).json({
+      status: 404,
+      error: "item not exist",
+    });
+  }
+};
+module.exports = {
+  listItemFunc,
+  registerItemFunc,
+  updateItemFunc,
+  findItemFunc,
+  deleteItemFunc,
+};
